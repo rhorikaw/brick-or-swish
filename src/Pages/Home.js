@@ -12,6 +12,7 @@ export default class Home extends React.Component{
             isLoading: true,
             proxy_info: props.proxy_info
         }
+        axios.defaults.withCredentials=true;
     }
 
     componentDidMount(){

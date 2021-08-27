@@ -101,6 +101,8 @@ function toggleMenu(){
 }
   
 export default function ButtonAppBar() {
+  axios.defaults.withCredentials=true;
+
   const [isLoggedIn, setLoginStatus] = useState(true);
   React.useEffect( () => {
     function handleResize() {
