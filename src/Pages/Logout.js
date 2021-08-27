@@ -1,0 +1,38 @@
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import styled from 'styled-components';
+import {Redirect, Link} from 'react-router-dom';
+
+const NavLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`
+
+
+export default class Logout extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            proxy_info: props.proxy_info
+        }
+    }
+
+    async componentDidMount(){
+        await axios.post("/api/logout",{proxy: this.state.proxy_info});
+    }
+
+    render(){
+        return (
+            <div>
+                <h3>You have successfully logged out of your account</h3>
+                <form noValidate autoComplete="off">
+                    <NavLink to="/login">
+                        <Button>Log In</Button>
+                    </NavLink>
+                </form>
+                <p>Don't have an account? Create one <Link to="/register">here</Link></p>
+            </div>
+        )
+    }
+}

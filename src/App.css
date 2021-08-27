@@ -1,0 +1,98 @@
+.App {
+  height: 100vh;
+  margin-top: 64px;
+  text-align: center;
+  padding: 5vh;
+}
+
+.App-Overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+}
+
+@media(min-width: 840px){
+  .App{
+    height: 100vh;
+    margin-top: 64px;
+    margin-left: 220px;
+  }
+}
+
+.Login {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.slide-in {
+  animation: slide-in 0.5s forwards;
+  -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+  animation: slide-out 0.5s forwards;
+  -webkit-animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-in {
+  100%{
+    transform: translateX(0%);
+  }
+}
+
+@-webkit-keyframes slide-in {
+  100%{
+    -webkit-transform: translateX(0%);
+  }
+}
+
+@keyframes slide-out {
+  0%{
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(100%);
+  }
+}
+
+@-webkit-keyframes slide-out {
+  0%{
+    -webkit-transform: translateX(0%);
+  }
+  100%{
+    -webkit-transform: translateX(100%);
+  }
+}
