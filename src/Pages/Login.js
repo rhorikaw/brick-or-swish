@@ -21,12 +21,14 @@ export default class Login extends React.Component{
     }
 
     userLogin = () =>{
-        axios.post("/api/login", 
+        axios.post("https://brick-or-swish.herokuapp.com/api/login", 
         {
             email: this.state.email,
             password: this.state.password,
-        },{
-            proxy: this.state.proxy_info})
+        },
+        /*{
+            proxy: this.state.proxy_info
+        }*/)
         .then( () => {
             this.setState({
                 auth: true
@@ -45,12 +47,14 @@ export default class Login extends React.Component{
     }
 
     guestLogin = () =>{
-        axios.post("/api/login", 
+        axios.post("https://brick-or-swish.herokuapp.com/api/login", 
         {
             email: 'iam@guest.com',
             password: 'iamaguest',
-        },{
-            proxy: this.state.proxy_info})
+        },
+        /*{
+            proxy: this.state.proxy_info
+        }*/)
         .then( () => {
             this.setState({
                 auth: true

@@ -19,7 +19,9 @@ export default class Logout extends React.Component{
     }
 
     async componentDidMount(){
-        await axios.post("/api/logout",{proxy: this.state.proxy_info});
+        await axios.post("https://brick-or-swish.herokuapp.com/api/logout",
+        //{proxy: this.state.proxy_info}
+        );
     }
 
     render(){
