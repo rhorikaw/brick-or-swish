@@ -112,7 +112,7 @@ export default function ButtonAppBar() {
 
     window.addEventListener('resize', handleResize)
   })
-  axios.get('/api/user')//,{
+  axios.get('https://brick-or-swish.herokuapp.com/api/user')//,{
     // proxy: {
     //   host: 'localhost',
     //   port: 4000
