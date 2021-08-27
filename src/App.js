@@ -58,8 +58,7 @@ export default class App extends React.Component{
     }else{
       this.state = {
         proxy_info: {
-          host: process.env.REACT_APP_DEV_URI,
-          port: process.env.REACT_APP_DEV_PORT
+          host: process.env.REACT_APP_PROD_URI
         }
       }
     }
