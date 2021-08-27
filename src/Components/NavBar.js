@@ -112,11 +112,11 @@ export default function ButtonAppBar() {
 
     window.addEventListener('resize', handleResize)
   })
-  axios.get('/api/user',{
-    proxy: {
-      host: 'localhost',
-      port: 4000
-    }
+  axios.get('https://brick-or-swish.herokuapp.com/api/user',{
+    // proxy: {
+    //   host: 'localhost',
+    //   port: 4000
+    // }
   }).then( res => {
     if(res.data.username !== "iamaguest"){
       setLoginStatus(true);

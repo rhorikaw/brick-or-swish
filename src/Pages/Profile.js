@@ -15,7 +15,7 @@ export default class Profile extends React.Component{
 
     componentDidMount(){
 
-        axios.get('/api/user',{proxy: this.state.proxy_info})
+        axios.get('https://brick-or-swish.herokuapp.com/api/user')//,{proxy: this.state.proxy_info})
         .then( 
             res => {
                 this.setState({
@@ -25,7 +25,7 @@ export default class Profile extends React.Component{
             }
         )
 
-        axios.get('/api/team',{proxy: this.state.proxy_info})
+        axios.get('https://brick-or-swish.herokuapp.com/api/team')//,{proxy: this.state.proxy_info})
         .then(
             res => {
                 this.setState({
