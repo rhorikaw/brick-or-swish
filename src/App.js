@@ -46,7 +46,7 @@ function UserHome(props){
 export default class App extends React.Component{
   constructor(){
     super();
-    const IS_DEV = true;
+    const IS_DEV = false;
 
     if(IS_DEV){
       this.state = {
