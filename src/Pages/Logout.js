@@ -2,7 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import styled from 'styled-components';
-import {Redirect, Link} from 'react-router-dom';
+import auth from '../auth';
+import {Link} from 'react-router-dom';
 
 const NavLink = styled(Link)`
   color: inherit;
@@ -11,17 +12,11 @@ const NavLink = styled(Link)`
 
 
 export default class Logout extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            proxy_info: props.proxy_info
-        }
-    }
-
+    
     async componentDidMount(){
-        await axios.post("https://brick-or-swish.herokuapp.com/api/logout",
-        //{proxy: this.state.proxy_info}
-        );
+        await axios.get("http://localhost:4000/api/logout");
+        auth.logout();
+        // await axios.get("https://brick-or-swish.herokuapp.com/api/logout");
     }
 
     render(){

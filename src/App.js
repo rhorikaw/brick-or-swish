@@ -1,82 +1,97 @@
 
 import NavBar from './Components/NavBar';
 import PlayerList from './Pages/Players';
+import PlayerInfo from './Pages/PlayerInfo';
 import Login from './Pages/Login';
 import Logout from './Pages/Logout';
 import Registration from './Pages/Registration';
+import Help from './Pages/Help';
 import Home from './Pages/Home';
 import Profile from './Pages/Profile';
+import Messages from './Pages/Messages';
+import AddFriend from './Pages/AddFriend';
+import ComingSoon from './Pages/ComingSoon';
 
 import './App.css';
-import React from 'react';
+import auth from './auth';
+import { ProtectedRoute } from './ProtectedRoute';
+import { UserContext } from './UserContext';
+import React, {useState, useMemo, useEffect} from 'react';
 import { Route, BrowserRouter, Switch, Redirect} from 'react-router-dom';
+import axios from 'axios';
 
-function LoginMenu(props) {
+axios.defaults.withCredentials = true;
+
+function LoginMenu() {
   return (
     <div className="Login">
-      <Route exact path="/" render={() => <Login proxy_info={props.proxy_info}/>}/>
-      <Route exact path="/login" render={() => <Login proxy_info={props.proxy_info}/>}/>
-      <Route exact path="/register" render={() => <Registration proxy_info={props.proxy_info}/>}/>
-      <Route exact path="/logout" render={() => <Logout proxy_info={props.proxy_info}/> }/>
+      <Route exact path="/login" render={() => <Login/>}/>
+      <Route exact path="/register" render={() => <Registration />}/>
+      <Route exact path="/logout" render={() => <Logout/> }/>
     </div>
   )
 }
 
-function UserHome(props){
+function UserHome(){
   return (
     <>
       <NavBar/>
       <div id="app-display" className="App">
-        <div id="app-overlay" className="App-Overlay"/>
-        <Route exact path="/home" render={() => (
-          <Home proxy_info={props.proxy_info}/>
-        )}/>
-        <Route exact path="/profile" render={() => (
-          <Profile proxy_info={props.proxy_info}/>
-        )}/>
-        <Route exact path="/players" render={() => (
-          <PlayerList proxy_info={props.proxy_info}/>
-        )}/>
+        <div id="app-overlay" className="App-Overlay"/> 
+        <ProtectedRoute exact path="/home" component={Home} />
+        <ProtectedRoute exact path="/profile" component={Profile} />
+        <ProtectedRoute exact path="/messages" component={Messages}/>
+        <ProtectedRoute exact path="/players" component={PlayerList}/>
+        <ProtectedRoute path="/players/:id" component={PlayerInfo}/>
+        <ProtectedRoute exact path="/teams" component={ComingSoon}/>
+        <ProtectedRoute exact path="/addfriend" component={AddFriend}/>
+        <ProtectedRoute exact path="/settings" component={ComingSoon}/>
+        <ProtectedRoute exact path="/help" component={Help}/>
       </div>
-      
     </>
   )
 }
 
-export default class App extends React.Component{
-  constructor(){
-    super();
-    const IS_DEV = false;
+function App() {
+  const [user, setUser] = useState(null);
+  const providerValue = useMemo( () => ({user, setUser}), [user, setUser]);
+  const [isLoading, setLoading] = useState(true);
 
-    if(IS_DEV){
-      this.state = {
-        proxy_info: {
-          host: process.env.REACT_APP_DEV_URI,
-          port: process.env.REACT_APP_DEV_PORT
-        }
-      }
-    }else{
-      this.state = {
-        proxy_info: {
-          host: process.env.REACT_APP_PROD_URI
-        }
-      }
-    }
-  }
-  
-  render(){
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/user")
+    .then( res => {
+      setUser(res.data.userData);
+      auth.login();
+      setLoading(false);
+    })
+    .catch( err => {
+      auth.logout();
+      setLoading(false);
+    })
+  }, []);
+
+
+  if(isLoading) {
     return (
-      <>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" render={() => <LoginMenu proxy_info={this.state.proxy_info}/>}/>
-            <Route exact path="/login" render={() => <LoginMenu proxy_info={this.state.proxy_info}/>}/>
-            <Route exact path="/register" render={() => <LoginMenu proxy_info={this.state.proxy_info}/>}/>
-            <Route exact path="/logout" render={() => <LoginMenu proxy_info={this.state.proxy_info}/> }/>
-            <Route render={() => <UserHome proxy_info={this.state.proxy_info}/>} />
-          </Switch>
-        </BrowserRouter>
-      </>
-    );
+      <h1> Loading... </h1>
+    )
   }
-} 
+
+  console.log(process.env.REACT_APP_DEV_URI)
+
+  return (
+    <BrowserRouter >
+      <Switch>
+        <Route exact path="/" render={() => <Redirect to="/home"/>}/>
+       <UserContext.Provider value={providerValue}>
+        <Route exact path="/login" render={() => <LoginMenu/>}/>
+        <Route exact path="/register" render={() => <LoginMenu />}/>
+        <Route exact path="/logout" render={() => <LoginMenu/> }/>
+        <Route path="/" render={() => <UserHome />} />
+       </UserContext.Provider>
+      </Switch>
+    </BrowserRouter>
+  )
+}
+
+export default App;

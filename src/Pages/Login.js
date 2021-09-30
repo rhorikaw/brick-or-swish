@@ -1,102 +1,87 @@
-import React from 'react';
+import {useContext, useState} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import {Redirect, Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import auth from '../auth';
+import { UserContext } from '../UserContext';
 
 
-export default class Login extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            auth:false,
-            proxy_info: props.proxy_info
-        }
-        this.updateEmail = this.updateEmail.bind(this);
-        this.updatePassword = this.updatePassword.bind(this);
-        console.log(props.proxy_info);
-    }
+const Login = () => {
+    const {setUser} = useContext(UserContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    userLogin = () =>{
-        axios.post("https://brick-or-swish.herokuapp.com/api/login", 
+    const userLogin = () =>{
+        axios.post("http://localhost:4000/api/login",
+        // axios.post("https://brick-or-swish.herokuapp.com/api/login", 
         {
-            email: this.state.email,
-            password: this.state.password,
-        },
-        /*{
-            proxy: this.state.proxy_info
-        }*/)
-        .then( () => {
-            this.setState({
-                auth: true
-            })
+            email: email,
+            password: password,
+        })
+        .then( (res) => {
+            auth.login();
+            setUser(res.data.userData);
         }).catch( err => {
             let errCode = parseInt(err.message.split(' ').slice(-1).pop());
+            setEmail('');
+            setPassword('');
             if(errCode === 401){
-                this.setState({
-                    redirect: true,
-                    isLoading: false
-                });
+                alert("Wrong username or password!")
             }else if(errCode === 500){
                 alert("We are experiencing trouble with the servers. ): Please email richmondhorikawa@gmail.com if it is urgent!")
             }
         })
+
+        
     }
 
-    guestLogin = () =>{
-        axios.post("https://brick-or-swish.herokuapp.com/api/login", 
+    const guestLogin = () =>{
+        axios.post("http://localhost:4000/api/login",
+        // axios.post("https://brick-or-swish.herokuapp.com/api/login", 
         {
             email: 'iam@guest.com',
             password: 'iamaguest',
-        },
-        /*{
-            proxy: this.state.proxy_info
-        }*/)
-        .then( () => {
-            this.setState({
-                auth: true
-            })
+        })
+        .then( (res) => {
+            setUser(res.body.userData);
+            auth.login();
         }).catch( () => {
             alert("Wrong username or password");
         })
 
     }
 
-    updateEmail(event){
-        this.setState({
-            email: event.target.value
-        })
-    }
-
-    updatePassword(event){
-        this.setState({
-            password: event.target.value
-        })
-    }
-
-    handleKeyPress = (event) => {
+    const handleKeyPress = (event) => {
         if(event.key === "Enter"){
-            this.userLogin();
+            userLogin();
         }
     }
 
-    render(){
-        if(this.state.auth){
-            return (<Redirect to="/home"/>)
-        }
-        return (
-            <div>
-                <h3>Log into your account</h3>
-                <form  onKeyPress={this.handleKeyPress} noValidate autoComplete="off">
-                    <TextField id="email" label="Email" variant="outlined" onChange={this.updateEmail} value={this.state.email}/> <br/><br/>
-                    <TextField id="password" label="Password" variant="outlined" type="password" onChange={this.updatePassword} value={this.state.password}/> <br/><br/>
-                    <Button onClick={this.userLogin}>Log In</Button>
-                </form>
-                <p>Don't have an account? Create one <Link to="/register" prop>here</Link> or continue as a <Link onClick={this.guestLogin}>guest</Link>.</p>
-            </div>
-        )
+    const handleEmail = (event) => {
+        setEmail(event.target.value);
     }
+
+    const handlePassword = (event) => {
+        setPassword(event.target.value);
+    }
+
+    
+    if(auth.isAuthenticated()){
+        return <Redirect to="/home"/>
+    }
+    return (
+        <div>
+            <h3>Log into your account</h3>
+            <form  onKeyPress={handleKeyPress} noValidate autoComplete="off">
+                <TextField id="email" label="Email" variant="outlined" onChange={handleEmail} value={email}/> <br/><br/>
+                <TextField id="password" label="Password" variant="outlined" type="password" onChange={handlePassword} value={password}/> <br/><br/>
+                <Button onClick={userLogin}>Log In</Button>
+            </form>
+            <p>Don't have an account? Create one <Link to="/register">here</Link> or continue as a <Button onClick={guestLogin}>guest</Button>.</p>
+        </div>
+    )
 }
+
+export default Login;
