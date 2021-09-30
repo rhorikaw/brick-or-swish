@@ -150,6 +150,7 @@ function User(props){
 
     useEffect( () => {
         if(props.request){
+            console.log(props);
             axios.get(`${baseURL}/api/users`, {
                 params: {
                     userIds: props.users
