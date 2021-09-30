@@ -8,7 +8,7 @@ import Registration from './Pages/Registration';
 import Help from './Pages/Help';
 import Home from './Pages/Home';
 import Profile from './Pages/Profile';
-import Messages from './Pages/Messages';
+// import Messages from './Pages/Messages';
 import AddFriend from './Pages/AddFriend';
 import ComingSoon from './Pages/ComingSoon';
 
@@ -43,7 +43,7 @@ function UserHome(){
         <div id="app-overlay" className="App-Overlay"/> 
         <ProtectedRoute exact path="/home" component={Home} />
         <ProtectedRoute exact path="/profile" component={Profile} />
-        <ProtectedRoute exact path="/messages" component={Messages}/>
+        <ProtectedRoute exact path="/messages" component={ComingSoon}/>
         <ProtectedRoute exact path="/players" component={PlayerList}/>
         <ProtectedRoute path="/players/:id" component={PlayerInfo}/>
         <ProtectedRoute exact path="/teams" component={ComingSoon}/>
