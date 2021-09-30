@@ -26,12 +26,15 @@ const StyledTD = styled.td`
     padding: 5px 15px;
 `
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
+
 export default function PlayerInfo(props){
     const [playerData, setPlayerData] = useState(props.location.playerProps);
     const [isLoading, setLoadStatus] = useState(playerData === undefined);
     useEffect( () => {
         if(playerData === undefined){
-            axios.get(`http://localhost:4000/api/players/${window.location.pathname.split('/')[2]}`)
+            axios.get(`${baseURL}/api/players/${window.location.pathname.split('/')[2]}`)
             .then(res => {
                 setPlayerData(res.data[0]);
                 setLoadStatus(false);

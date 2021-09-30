@@ -22,6 +22,9 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
+
 function LoginMenu() {
   return (
     <div className="Login">
@@ -58,7 +61,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:4000/api/user")
+    axios.get(`${baseURL}/api/user`)
     .then( res => {
       setUser(res.data.userData);
       auth.login();

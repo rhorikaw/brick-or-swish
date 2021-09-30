@@ -131,6 +131,9 @@ const StyledFadedIcon = styled.div`
     color: rgba(0,0,0,0.25);
 `
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
+
 function playerExists(playerId, roster){
     for(let player of roster){
         if(playerId === player.id){
@@ -181,7 +184,7 @@ export default function PlayerList(){
 
     const getModernPlayers = async () => {
         try{
-            var playerInfo = await axios.get('http://localhost:4000/api/players', {
+            var playerInfo = await axios.get(`${baseURL}/api/players`, {
                 params: {
                     pageNum: searchPage - 1,
                     searchCategory: searchCategory,
@@ -208,7 +211,7 @@ export default function PlayerList(){
     const handleAddition = function(player){
         return function() {
             var newUser = JSON.parse(JSON.stringify(user));
-            axios.put('http://localhost:4000/api/team/add', {player:player});
+            axios.put(`${baseURL}/api/team/add`, {player:player});
             newUser.team.push(player);
             setUser(newUser);
             console.log("player has been added to the team!");
@@ -218,7 +221,7 @@ export default function PlayerList(){
     const handleDeletion = function(playerID){
         return function() {
             var newUser = JSON.parse(JSON.stringify(user));
-            axios.put('http://localhost:4000/api/team/delete', {playerID: playerID});
+            axios.put(`${baseURL}/api/team/delete`, {playerID: playerID});
             newUser.team = newUser.team.filter(player => player.id !== playerID);
             setUser(newUser);
         }
@@ -235,7 +238,7 @@ export default function PlayerList(){
     //     getModernPlayers();
     // }
     useEffect( () => {
-        axios.get('http://localhost:4000/api/players', {
+        axios.get(`${baseURL}/api/players`, {
             params: {
                 pageNum: searchPage - 1,
                 searchCategory: searchCategory,

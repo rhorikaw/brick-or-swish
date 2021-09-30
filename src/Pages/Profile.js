@@ -55,13 +55,16 @@ const StyledIconButton = styled.div`
     }
 `
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
+
 function Profile(){
     const {user, setUser} = useContext(UserContext);
 
     const handleDeletion = function(playerID){
         return function() {
             var newUser = JSON.parse(JSON.stringify(user));
-            axios.put('http://localhost:4000/api/team/delete', {playerID: playerID});
+            axios.put(`${baseURL}/api/team/delete`, {playerID: playerID});
             newUser.team = newUser.team.filter(player => player.id !== playerID);
             setUser(newUser);
         }

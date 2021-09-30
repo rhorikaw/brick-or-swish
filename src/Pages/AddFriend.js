@@ -12,6 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import {faSearch, faUserPlus, faTimes, faCheck, faUserClock, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
 
 const StyledForm = styled.form`
     display: flex;
@@ -88,7 +90,7 @@ function UserButton(props){
         return async function() {
             try{
                 setIsSent(true);
-                await axios.put('http://localhost:4000/api/user/add', 
+                await axios.put(`${baseURL}/user/add`, 
                 {
                     currUser: currUser,
                     id: userId
@@ -103,7 +105,7 @@ function UserButton(props){
         return async function() {
             try{
                 setIsSent(false);
-                await axios.put('http://localhost:4000/api/user/cancel', 
+                await axios.put(`${baseURL}/api/user/cancel`, 
                 {
                     currUser: currUser,
                     id: userId
@@ -148,7 +150,7 @@ function User(props){
 
     useEffect( () => {
         if(props.request){
-            axios.get('http://localhost:4000/api/users', {
+            axios.get(`${baseURL}/api/users`, {
                 params: {
                     userIds: props.users
                 }
@@ -167,7 +169,7 @@ function User(props){
         return async function() {
             try{
                 var newUser = JSON.parse(JSON.stringify(user));
-                const friend = await axios.put('http://localhost:4000/api/user/confirm',
+                const friend = await axios.put(`${baseURL}/api/user/confirm`,
                 {
                     currUser: currUser,
                     id: userId
@@ -186,7 +188,7 @@ function User(props){
             console.log("Reject Button Pressed");
             try{
                 var newUser = JSON.parse(JSON.stringify(user));
-                await axios.put('http://localhost:4000/api/user/reject',
+                await axios.put(`${baseURL}/api/user/reject`,
                 {
                     currUser: currUser,
                     id: userId
@@ -283,7 +285,7 @@ export default function AddFriend(){
 
     const getUsers = async () => {
         try{
-            var userInfo = await axios.get('http://localhost:4000/api/users', {
+            var userInfo = await axios.get(`${baseURL}/api/users`, {
                 params: {
                     searchFilter: search,
                     pageNum: searchPage - 1

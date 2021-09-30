@@ -7,6 +7,8 @@ import {Link, Redirect} from 'react-router-dom';
 import auth from '../auth';
 import { UserContext } from '../UserContext';
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
 
 const Login = () => {
     const {setUser} = useContext(UserContext);
@@ -14,8 +16,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const userLogin = () =>{
-        axios.post("http://localhost:4000/api/login",
-        // axios.post("https://brick-or-swish.herokuapp.com/api/login", 
+        axios.post(`${baseURL}/api/login`,
         {
             email: email,
             password: password,
@@ -38,8 +39,7 @@ const Login = () => {
     }
 
     const guestLogin = () =>{
-        axios.post("http://localhost:4000/api/login",
-        // axios.post("https://brick-or-swish.herokuapp.com/api/login", 
+        axios.post(`${baseURL}/api/login`,
         {
             email: 'iam@guest.com',
             password: 'iamaguest',

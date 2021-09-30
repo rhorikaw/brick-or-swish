@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
 export default class Registration extends React.Component{
     constructor(props){
         super(props);
@@ -22,7 +24,7 @@ export default class Registration extends React.Component{
     }
 
     registerNewUser = () =>{
-        axios.post("http://localhost:4000/api/signup", 
+        axios.post(`${baseURL}/api/signup`, 
         {
             fullName: this.state.fullName,
             username: this.state.username, 

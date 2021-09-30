@@ -10,13 +10,13 @@ const NavLink = styled(Link)`
   text-decoration: none;
 `
 
-
+const baseURL = "https://brick-or-swish.herokuapp.com";
+// const baseURL = "http://localhost:4000";
 export default class Logout extends React.Component{
-    
+
     async componentDidMount(){
-        await axios.get("http://localhost:4000/api/logout");
+        await axios.get(`${baseURL}/api/logout`);
         auth.logout();
-        // await axios.get("https://brick-or-swish.herokuapp.com/api/logout");
     }
 
     render(){
